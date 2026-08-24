@@ -4,7 +4,7 @@ This project presents an exploratory and statistical analysis of an automobile d
 
 The study combines **descriptive statistics**, **correlation analysis**, **distribution diagnostics**, **Principal Component Analysis (PCA)** and **linear regression** to explore the structure of the dataset and identify the main factors associated with fuel efficiency.
 
-The full analysis, figures and interpretations are available in [**`report.pdf`**](./report.pdf).
+📄 The complete analysis and interpretations are available in [**`report.pdf`**](./report.pdf).
 
 ---
 
@@ -18,7 +18,7 @@ The full analysis, figures and interpretations are available in [**`report.pdf`*
 - **Main variable of interest:** fuel efficiency (miles per gallon)
 - **Tools:** Python, NumPy, pandas, Matplotlib, Seaborn, SciPy and scikit-learn
 
-All analyses and plots can be reproduced from the provided Jupyter notebook.
+All analyses and visualizations can be reproduced from the provided Jupyter notebook.
 
 The project primarily focuses on **exploratory data analysis and interpretation**, complemented by linear regression models to quantify and evaluate the relationship between vehicle characteristics and fuel efficiency.
 
@@ -28,11 +28,13 @@ The project primarily focuses on **exploratory data analysis and interpretation*
 
 ```text
 .
-├── Practicalexam_code_final_version.ipynb   # Main analysis notebook
-├── automobiles.csv                          # Dataset
-├── figures/                                 # Generated visualizations
-├── report.pdf                               # Full written report
-└── README.md                                # Project documentation
+├── automobile_dataset_exploration.ipynb    # Main analysis notebook
+├── automobiles.csv                         # Dataset
+├── figures/                                # Generated visualizations
+├── report.pdf                              # Full written report
+├── requirements.txt                        # Python dependencies
+├── .gitignore
+└── README.md                               # Project documentation
 ```
 
 ---
@@ -41,7 +43,7 @@ The project primarily focuses on **exploratory data analysis and interpretation*
 
 ### Descriptive Statistics
 
-Global descriptive statistics and country-specific statistics are used to compare American, European and Japanese vehicles.
+Global and country-specific descriptive statistics are used to compare American, European and Japanese vehicles.
 
 The analysis highlights substantial differences between countries:
 
@@ -51,7 +53,7 @@ The analysis highlights substantial differences between countries:
 - American vehicles are generally heavier and more powerful, with larger engine displacement
 - They also exhibit greater variability in their mechanical characteristics
 
-Fuel-efficient and non-fuel-efficient vehicles are also compared using a **24 MPG threshold** based on the CAFE standard considered in the analysis.
+These differences provide an initial indication that vehicle origin, mechanical design and fuel efficiency are closely related.
 
 ---
 
@@ -78,7 +80,7 @@ QQ-plots are used to investigate the distributions of selected variables:
 - **Acceleration** exhibits a distribution reasonably compatible with normality
 - **Model year** is approximately uniformly distributed across the observed period, while retaining the expected discrete structure
 
-These analyses illustrate how distributional assumptions depend on the nature of each variable.
+These diagnostics illustrate how distributional assumptions depend on the nature of each variable.
 
 ---
 
@@ -94,7 +96,7 @@ It reveals a dominant structure in the dataset and shows how vehicle characteris
 
 ### Mechanical PCA
 
-A second PCA is restricted to four mechanical variables:
+A second PCA focuses exclusively on four mechanical variables:
 
 - cylinders
 - displacement
@@ -102,8 +104,6 @@ A second PCA is restricted to four mechanical variables:
 - weight
 
 The first principal component explains **more than 90% of the mechanical variance**.
-
-The contributions to PC1 are:
 
 | Variable | Contribution to PC1 |
 |---|---:|
@@ -114,14 +114,18 @@ The contributions to PC1 are:
 
 The four variables contribute almost equally to PC1, which can therefore be interpreted as an **overall mechanical size and power axis**.
 
-PC2 captures a more specific contrast and is mainly determined by:
+PC2 captures a more specific mechanical contrast:
 
-- **Horsepower:** 70.64%
-- **Cylinders:** 24.07%
+| Variable | Contribution to PC2 |
+|---|---:|
+| Horsepower | 70.64% |
+| Cylinders | 24.07% |
+| Weight | 2.86% |
+| Displacement | 2.43% |
 
-It can be interpreted primarily as a contrast between **horsepower and engine configuration**.
+Horsepower has a positive loading while the number of cylinders has a negative loading, making PC2 primarily a contrast between **horsepower and engine configuration**.
 
-The PCA also highlights differences between countries: American vehicles are more widely dispersed along the main mechanical axis, while European and Japanese vehicles form more compact and overlapping groups. This is consistent with the greater standard deviations observed for American mechanical characteristics in the descriptive analysis.
+The PCA also highlights differences between countries. American vehicles show greater dispersion along the main mechanical axis, while European and Japanese vehicles form more compact and overlapping groups. This is consistent with the greater standard deviations observed for American mechanical characteristics in the descriptive analysis.
 
 ---
 
@@ -154,14 +158,7 @@ Vehicle weight alone therefore explains a substantial part of the variation in f
 
 ### Multiple linear regression
 
-A second model uses:
-
-- cylinders
-- displacement
-- horsepower
-- weight
-- acceleration
-- model year
+The second model uses cylinders, displacement, horsepower, weight, acceleration and model year simultaneously.
 
 | Metric | Test result |
 |---|---:|
@@ -170,7 +167,7 @@ A second model uses:
 
 The improvement over the weight-only model shows that **fuel efficiency cannot be explained by vehicle weight alone**. Other mechanical characteristics and model year provide additional predictive information.
 
-An Actual vs Predicted MPG analysis is also used to visualize the performance of the multivariate model on unseen test observations.
+Predicted and observed MPG values are also compared on the test set to visualize the performance and remaining errors of the multivariate model.
 
 ---
 
@@ -179,7 +176,8 @@ An Actual vs Predicted MPG analysis is also used to visualize the performance of
 - Fuel efficiency is strongly associated with vehicle mechanical characteristics.
 - American vehicles are generally larger, heavier and more powerful than European and Japanese vehicles in this dataset.
 - American vehicles also exhibit greater mechanical diversity.
-- Mechanical PCA reveals a dominant size-and-power axis explaining more than 90% of mechanical variance.
+- Mechanical PCA reveals a dominant **size-and-power axis** explaining more than 90% of mechanical variance.
+- European and Japanese vehicles occupy more similar regions of the mechanical PCA space, while American vehicles show greater dispersion.
 - Fuel-efficient vehicles tend to correspond to lighter and less powerful mechanical configurations.
 - Vehicle weight alone provides substantial predictive information about MPG.
 - Combining several vehicle characteristics improves test performance from **R² = 0.653 to R² = 0.794**.
@@ -188,16 +186,16 @@ An Actual vs Predicted MPG analysis is also used to visualize the performance of
 
 ## How to Run
 
-### 1. Install the dependencies
+Clone the repository and install the required Python dependencies:
 
 ```bash
-pip install numpy pandas matplotlib seaborn scipy scikit-learn jupyter
+pip install -r requirements.txt
 ```
 
-### 2. Run the notebook
+Then launch the notebook:
 
 ```bash
-jupyter notebook Practicalexam_code_final_version.ipynb
+jupyter notebook automobile_dataset_exploration.ipynb
 ```
 
 The notebook reproduces the analyses and visualizations presented in the report.
